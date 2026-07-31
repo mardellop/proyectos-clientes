@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petri's Pets</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <style>
+        .project-detail-page {
+            padding: 7rem 2% 4rem;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+        .detail-hero {
+            width: 100%;
+            height: 450px;
+            border-radius: 30px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+        .detail-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .detail-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .detail-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            text-align: center;
+        }
+        .detail-tag {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: rgba(163, 198, 20, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        .detail-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 6rem;
+        }
+        .detail-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 0;
+        }
+        .detail-section.reverse {
+            direction: rtl;
+        }
+        .detail-section.reverse > * {
+            direction: ltr;
+        }
+        .section-image {
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            background: transparent;
+        }
+        .section-image.tall {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .section-image img, .section-image video {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+        .results-section {
+            background: #f8fafc;
+            padding: 4rem;
+            border-radius: 40px;
+            border: 1px solid #e2e8f0;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .result-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 24px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .result-card svg {
+            margin-bottom: 1rem;
+        }
+        .result-card h4 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        @media (max-width: 850px) {
+            .detail-section, .detail-section.reverse {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            .detail-section.reverse {
+                direction: ltr;
+            }
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .gallery-section {
+            margin-top: 6rem;
+            padding: 4rem 2rem;
+            background: #fdfdfd;
+            border-radius: 40px;
+            border: 1px solid #f0f0f0;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            align-items: start;
+        }
+        .gallery-item {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: transparent;
+        }
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .gallery-item:hover img, .gallery-item:hover video {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        .gallery-overlay h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            font-weight: 700;
+        }
+        .gallery-overlay p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .gallery-tag {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(163, 198, 20, 0.9);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+
+        @media (max-width: 1000px) {
+            .gallery-grid {
+                grid-auto-rows: 150px;
+            }
+            .gallery-item, .gallery-item.large, .gallery-item.tall, .gallery-item.wide {
+                grid-column: span 6;
+                grid-row: span 2;
+            }
+        }
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: 300px;
+                gap: 1.2rem;
+            }
+            .gallery-item, .gallery-item.large, .gallery-item.tall, .gallery-item.wide {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
+        p {
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="blob-bg"></div>
+    <nav class="navbar scrolled">
+        <a href="index.html" class="logo">MARKETING <span class="highlight">DIGITAL</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="proyecto-pantry-chef.html">Pantry Chef</a></li>
+            <li><a href="proyecto-cubiertas-diansa.html">Cubiertas Diansa</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+        </ul>
+        <button class="mobile-menu-btn">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </button>
+    </nav>
+
+    <main class="project-detail-page">
+
+        <div class="detail-header">
+            <span class="detail-tag">Proyecto real</span>
+            <h1>Petri's Pets</h1>
+            <p style="font-size: 1.2rem; color: var(--text-muted); line-height: 1.6; margin-top: 1.5rem; text-align: justify;">
+               Consolidé el posicionamiento de una marca artesanal en el sector pet-luxury, aumentando la percepción de valor del producto mediante una narrativa visual centrada en la exclusividad, la artesanía y el bienestar animal. Implementé estrategias de Reels que fusionan la estética premium con la funcionalidad técnica (salud veterinaria + diseño). Esto demostró mi capacidad para equilibrar la comunicación emocional con la propuesta de valor del producto, logrando mantener el interés del usuario sin sacrificar la esencia artesanal.
+            </p>
+        </div>
+
+
+        <div class="detail-grid">
+            <!-- Sección Problema -->
+            <div class="detail-section reveal">
+                <div class="text-content">
+                    <p>
+                        Construí una historia de estilo de vida donde el vínculo entre dueño y mascota es el protagonista. Cada pieza fue diseñada para evocar elegancia y sofisticación.
+                    </p>
+                </div>
+                <div class="section-image">
+                    <img src="post-1-petris-pets.jpg" alt="Analizando el problema" width="1080" height="1080">
+                </div>
+            </div>
+
+            <!-- Sección Solución -->
+            <div class="detail-section reverse reveal">
+                <div class="text-content">
+                    <p>
+                        Ejecuté una estrategia de contenido enfocada en la diferenciación. A través de una estética cuidada (fondos, iluminación, copywriting aspiracional), logré transformar accesorios funcionales en piezas de deseo, consolidando la identidad de marca como referente en alta costura canina.
+                    </p>
+                </div>
+                <div class="section-image tall">
+                    <video playsinline controls style="width: 100%; height: auto;" width="1080" height="1920">
+                        <source src="reels-petris-pets.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- Sección Mi Rol -->
+            <div class="detail-section reveal">
+                <div class="text-content">
+                    <p>
+                    Aumenté el valor de la artesanía mediante un enfoque en la personalización. La narrativa resalta la exclusividad de cada pieza al incluir una ilustración única, transformando un producto funcional en un objeto de colección y un vínculo emocional entre el dueño y su mascota.
+                    </p>
+                </div>
+                <div class="section-image">
+                    <img src="post-2-petris-pets.jpg" alt="Colaboración y estrategia" width="1080" height="1080">
+                </div>
+            </div>
+
+            <!-- Sección Edición de Vídeo -->
+            <div class="detail-section reverse reveal">
+                <div class="text-content">
+                    <p>
+                        Realicé este Reel para captar la atención de un público nicho. Mi objetivo fue sintetizar la complejidad técnica y la calidad de los materiales en una narrativa dinámica, logrando que el espectador no solo vea el producto, sino que perciba el valor intrínseco de la fabricación artesanal.
+                    </p>
+                </div>
+                <div class="section-image tall">
+                    <video playsinline controls style="width: 100%; height: auto;" width="1080" height="1920">
+                        <source src="video-galguera.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- Sección Copywriting -->
+            <div class="detail-section reveal">
+                <div class="text-content">
+                    <p>
+                        Diseñé este post basado en el contraste y la sobriedad, utilizando fondos oscuros para aumentar la percepción de lujo del portabolsas. A través del copywriting estratégico, consolidé la asociación del producto con una experiencia de uso sofisticada, apelando directamente a un segmento de cliente que prioriza la distinción y el detalle.
+                    </p>
+                </div>
+                <div class="section-image">
+                    <img src="post-3-petris-pets.jpg" alt="Post Cubiertas Diansa" width="1080" height="1080">
+                </div>
+            </div>
+
+            <!-- Nueva Sección 1 -->
+            <div class="detail-section reverse reveal">
+                <div class="text-content">
+                    <p>
+                        Presenté el arnés y la correa con charm distintivo como un total look coherente. Este post articula la propuesta de valor integral de la marca, diseñada específicamente para captar a un cliente que no busca un simple accesorio, sino un sello de identidad, calidad y diseño que refuerce su propio estilo de vida.
+                    </p>
+                </div>
+                <div class="section-image">
+                    <img src="post-4-petris-pets.jpg" alt="Nueva sección" width="1080" height="1080">
+                </div>
+            </div>
+
+                   <div style="text-align: left; margin-top: -3rem; margin-bottom: 0.5rem;">
+            <a href="index.html#projects" class="back-link" style="font-size: 1.2rem; gap: 1rem; margin-bottom: 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                Volver al portfolio
+            </a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 0;">
+        <div class="footer-content">
+            <a href="index.html" class="logo">MARKETING <span class="highlight">DIGITAL</span></a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

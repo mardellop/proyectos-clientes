@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantry Chef</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png"> 
+    <style>
+        .project-detail-page {
+            padding: 8rem 8% 0.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+        .detail-hero {
+            width: 100%;
+            height: 500px;
+            border-radius: 40px;
+            overflow: hidden;
+            margin-bottom: 4rem;
+            box-shadow: 0 30px 60px rgba(37, 99, 235, 0.15);
+            position: relative;
+        }
+        .detail-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        .detail-hero:hover img {
+            transform: scale(1.05);
+        }
+        .hero-overlay-text {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            color: white;
+            z-index: 2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .detail-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.6));
+            z-index: 1;
+        }
+        .detail-header {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .detail-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            letter-spacing: -1px;
+        }
+        .detail-tag {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            background: rgba(37, 99, 235, 0.15);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 3rem;
+            margin-bottom: 0;
+        }
+        .detail-section {
+            margin-bottom: 3.5rem;
+        }
+        .detail-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-main);
+        }
+        .detail-section h2 svg {
+            color: var(--primary);
+        }
+        .detail-section p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            text-align: justify;
+        }
+        
+        /* Feature Gallery Styles */
+        .feature-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 5rem 0;
+        }
+        .feature-item {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+        .feature-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.1);
+            border-color: var(--primary);
+        }
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1.5rem;
+            color: var(--primary);
+        }
+        .feature-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+        .feature-item p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .sidebar-box {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 32px;
+            border: 1px solid var(--glass-border);
+            position: sticky;
+            top: 120px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .results-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        .results-list li {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
+            color: var(--text-main);
+            font-weight: 600;
+            align-items: center;
+            text-align: justify;
+        }
+        .results-list li svg {
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+        .skills-container {
+            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+        }
+        .skill-badge {
+            background: #f8fafc;
+            padding: 0.6rem 0.5rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            line-height: 1.2;
+        }
+        .skill-badge:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        .visit-btn-container {
+            margin-top: 6rem;
+            text-align: center;
+            padding: 4rem;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(255, 255, 255, 1) 100%);
+            border-radius: 40px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+        }
+        @media (max-width: 968px) {
+            .feature-gallery {
+                grid-template-columns: 1fr;
+            }
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .detail-header h1 {
+                font-size: 2.5rem;
+            }
+            .sidebar-box {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="blob-bg"></div>
+     <nav class="navbar">
+        <a href="index.html" class="logo">MARKETING <span class="highlight">DIGITAL</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="proyecto-cubiertas-diansa.html">Cubiertas Diansa</a></li>
+            <li><a href="proyecto-petris-pets.html">Petri's Pets</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+        </ul>
+        <button class="mobile-menu-btn">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </button>
+    </nav>
+
+    <main class="project-detail-page">
+        <header class="detail-header">
+            <span class="detail-tag">Proyecto académico</span>
+            <h1>Pantry Chef</h1>
+        </header>
+        <div class="detail-grid">
+            <div class="content-side">
+                <div class="detail-section">
+                    <h2>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        Experiencia de marca 360º
+                    </h2>
+                    <p>
+                        Diseñé una experiencia de marca 360°, maximizando la retención y la interacción del usuario. La clave de Pantry Chef es la transformación del interés inicial en interacción sostenida, asegurando que cada interacción, ya sea en la App, en la web o en la calle, sea intuitiva, útil y narrativamente coherente.
+                    </p>
+                    <div style="margin-top: 2rem; display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+                        <div style="background: rgba(37, 99, 235, 0.05); padding: 1.5rem; border-radius: 20px; border-left: 4px solid var(--primary); display: flex; flex-direction: column;">
+                            <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-muted); margin-bottom: 1rem; flex-grow: 1;">
+                                Construí la base tecnológica del proyecto mediante el desarrollo de una web responsive y una aplicación móvil nativa (HTML/JavaScript). Mi enfoque técnico no se limitó a la codificación, sino a la optimización de la experiencia de usuario (UX/UI), asegurando una navegación fluida que minimiza la tasa de rebote en dispositivos móviles.
+                            </p>
+                            <a href="https://mardellop.github.io/Pantry-Chef/" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: none; font-size: 0.85rem;">Ver aplicación móvil →</a>
+                            <a href="https://mardellop.github.io/PantryChef/" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: none; font-size: 0.85rem;">Visitar sitio web →</a>
+                        </div>
+                        <div style="background: rgba(37, 99, 235, 0.05); padding: 1.5rem; border-radius: 20px; border-left: 4px solid var(--primary); display: flex; flex-direction: column;">
+                            <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-muted); margin-bottom: 1rem; flex-grow: 1;">
+                                Diseñé una narrativa de marca coherente que conecta la experiencia móvil con acciones de Street Marketing. El objetivo fue crear un punto de contacto físico que capitalice el valor del entorno digital, generando una experiencia de marca memorable y consistente.
+                            </p>
+                            <a href="https://mardellop.github.io/street-marketing/" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: none; font-size: 0.85rem;">Ver acción de street marketing →</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-box" style="margin-bottom: 2rem; position: static;">
+                    <h3 style="font-size: 1.5rem; margin-bottom: 0.8rem; color: var(--primary); display: flex; align-items: center; gap: 0.8rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                        Habilidades
+                    </h3>
+                    <div class="skills-container" style="margin-top: 0;">
+                        <span class="skill-badge">Desarrollo web (HTML/JS)</span>
+                        <span class="skill-badge">Diseño UX/UI</span>
+                        <span class="skill-badge">Estrategia mobile marketing</span>
+                        <span class="skill-badge">Estrategia street Marketing</span>
+                        <span class="skill-badge" style="grid-column: span 2;">Estrategia omnicanal</span>
+                    </div>
+                </div>
+                <div class="sidebar-box">
+                    <ul class="results-list">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            Optimización de la experiencia de usuario para transformar el interés inicial en interacción.
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                           Diseño persuasivo para minimizar la tasa de rebote en dispositivos móviles.
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            Desarrollo de una narrativa coherente que conecta el mundo digital con el mundo físico.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: left; margin-top: -1.5rem; margin-bottom: 1.5rem;">
+            <a href="index.html#projects" class="back-link" style="font-size: 1.2rem; gap: 1rem; margin-bottom: 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                Volver al portfolio
+            </a>
+        </div>
+    </main>
+
+    <footer style="margin-top: 0;">
+        <div class="footer-content">
+            <a href="index.html" class="logo">MARKETING <span class="highlight">DIGITAL</span></a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
