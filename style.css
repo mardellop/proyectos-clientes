@@ -803,7 +803,7 @@ footer p {
 .reveal.active, .reveal-left.active, .reveal-right.active {
     opacity: 1;
     transform: translate(0);
-    padding-top: 100px;
+    padding-top: 50px;
 }
 
 /* Responsive */
